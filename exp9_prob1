@@ -1,0 +1,24 @@
+import pandas as pd
+A = {'Student' : ['Ice Bear', 'Panda', 'Grizzly'], 
+        'Math' : [80, 95, 79]}
+B = {'Student' : ['Ice Bear', 'Panda', 'Grizzly'], 
+     'Electronics' : [85, 81, 83]}
+C = {'Student' : ['Ice Bear', 'Panda', 'Grizzly'], 
+     'GEAS' : [90, 79, 93]}
+D = {'Student' : ['Ice Bear', 'Panda', 'Grizzly'], 
+     'ESAT' : [93, 89, 88]}
+
+a = pd.DataFrame(A, columns = ['Student', 'Math'])
+b = pd.DataFrame(B, columns = ['Student', 'Electronics'])
+c = pd.DataFrame(C, columns = ['Student', 'GEAS'])
+d = pd.DataFrame(D, columns = ['Student', 'ESAT'])
+a1 = pd.merge(a, b, how = 'left', on = 'Student')
+b1 = pd.merge(c, d, how = 'left', on = 'Student')
+c1 = pd.merge(a1, b1, how = 'left', on = 'Student')
+tidy_c1 = pd.melt(c1, id_vars = 'Student', value_vars = ['Math', 'Electronics', 'GEAS', 'ESAT'])
+x = tidy_c1.rename(columns = {'variable': 'Subjects', 'value' : 'Grades'})
+y = x.sort_values('Student')
+z = y.reset_index()
+
+Final = z.drop(columns = 'index', axis = 1)
+
